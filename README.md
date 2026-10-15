@@ -27,12 +27,15 @@ An independent analysis of Public Health Scotland open data on people who are me
 | `dim_health_board.csv` | Health board names |
 | `dim_reason.csv` | The four reason groups, with plain-English descriptions |
 | `dim_age_group.csv` | Age groups 18-74 and 75+ |
+| `prepare_data.py` | Python script that turns the raw Public Health Scotland files into the seven clean CSV files |
 | `measures.dax` | All the DAX measures, ready to copy into Power BI |
 | `Delayed Discharges Scotland.pbix` | The finished Power BI report (open with Power BI Desktop, free) |
 | `delayed-discharge-dashboard 1-3.png` | Images of the three report pages |
 | `theme-engr-ayodele.json` | A navy and gold report theme matching the Engr Ayodele brand |
 
 ## How the data was prepared
+
+The preparation is fully reproducible with `prepare_data.py` (Python, pandas): put the four downloaded files in a `raw/` folder and run `python prepare_data.py`.
 
 * Downloaded from the Public Health Scotland open data portal (August 2026 release).
 * Pre-calculated totals removed (the "All Delay Reasons", "18plus" and "Scotland" rows), so Power BI can never double-count. Totals are rebuilt with measures.

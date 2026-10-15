@@ -2,20 +2,34 @@
 
 An independent analysis of Public Health Scotland open data on people who are medically ready to leave hospital but are delayed, often while waiting for social care to be arranged. By Adeshina Ayodele.
 
+![Overview page](delayed-discharge-dashboard%201.png)
+
 **Source:** Public Health Scotland, *Delayed Discharges in NHSScotland*. Contains public sector information licensed under the Open Government Licence v3.0. This is independent work and is not endorsed by Public Health Scotland or the NHS.
 
-## What's in this folder
+## Dashboard pages
+
+| Overview | Where | Why |
+| --- | --- | --- |
+| ![Overview](delayed-discharge-dashboard%201.png) | ![Where are people delayed?](delayed-discharge-dashboard%202.png) | ![Why are people delayed?](delayed-discharge-dashboard%203.png) |
+
+1. **Overview:** daily beds occupied, year-on-year change and the monthly trend since July 2016, with age and reason filters.
+2. **Where are people delayed?** Council areas ranked by delayed bed days over the last 12 months, and people delayed by health board.
+3. **Why are people delayed?** Reasons for delay and age groups for the latest month, and how the reasons have changed over time.
+
+## What's in this repository
 
 | File | What it is |
 | --- | --- |
-| `data/fact_bed_days.csv` | Monthly bed days occupied by delayed discharges, by council area, age group and reason (Jul 2016 to Aug 2026) |
-| `data/fact_census_delays.csv` | Number of people delayed on the monthly census day, by health board, age group and reason |
-| `data/dim_date.csv` | One row per month, with year, financial year, days in month and a month index |
-| `data/dim_council_area.csv` | Council area names, with their health and social care partnership and health board |
-| `data/dim_health_board.csv` | Health board names |
-| `data/dim_reason.csv` | The four reason groups, with plain-English descriptions |
-| `data/dim_age_group.csv` | Age groups 18-74 and 75+ |
-| `dax/measures.dax` | All the DAX measures, ready to copy into Power BI |
+| `fact_bed_days.csv` | Monthly bed days occupied by delayed discharges, by council area, age group and reason (Jul 2016 to Aug 2026) |
+| `fact_census_delays.csv` | Number of people delayed on the monthly census day, by health board, age group and reason |
+| `dim_date.csv` | One row per month, with year, financial year, days in month and a month index |
+| `dim_council_area.csv` | Council area names, with their health and social care partnership and health board |
+| `dim_health_board.csv` | Health board names |
+| `dim_reason.csv` | The four reason groups, with plain-English descriptions |
+| `dim_age_group.csv` | Age groups 18-74 and 75+ |
+| `measures.dax` | All the DAX measures, ready to copy into Power BI |
+| `Delayed Discharges Scotland.pbix` | The finished Power BI report (open with Power BI Desktop, free) |
+| `delayed-discharge-dashboard 1-3.png` | Images of the three report pages |
 | `theme-engr-ayodele.json` | A navy and gold report theme matching the Engr Ayodele brand |
 
 ## How the data was prepared
@@ -28,7 +42,7 @@ An independent analysis of Public Health Scotland open data on people who are me
 ## Build it in Power BI Desktop
 
 ### 1. Load the data
-1. Open Power BI Desktop. **Home > Get data > Text/CSV**, and load each of the seven CSV files in `data/`.
+1. Open Power BI Desktop. **Home > Get data > Text/CSV**, and load each of the seven CSV files in ``.
 2. In Power Query (**Transform data**), check the `Date` column in `fact_bed_days`, `fact_census_delays` and `dim_date` is type **Date**. Then **Close & Apply**.
 
 ### 2. Create the relationships (Model view)
@@ -51,7 +65,7 @@ Then tidy up:
 * Hide the code columns and fact table keys from report view (right-click > Hide in report view).
 
 ### 3. Add the measures
-**Home > Enter data**, name the table `_Measures`, click **Load**. Then add each measure from `dax/measures.dax` using **New measure**. Format: `Bed Days` as whole number with thousands separator; `Avg Daily Delayed Beds` with 0 decimals; the `%` measures as percentage with 1 decimal.
+**Home > Enter data**, name the table `_Measures`, click **Load**. Then add each measure from `measures.dax` using **New measure**. Format: `Bed Days` as whole number with thousands separator; `Avg Daily Delayed Beds` with 0 decimals; the `%` measures as percentage with 1 decimal.
 
 ### 4. Apply the theme
 **View > Themes > Browse for themes** and choose `theme-engr-ayodele.json`.

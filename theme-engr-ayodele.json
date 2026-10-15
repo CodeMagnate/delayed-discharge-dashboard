@@ -1,0 +1,10 @@
+{
+  "name": "Engr Ayodele",
+  "dataColors": ["#14315C", "#C9A24A", "#2A63C0", "#8A6A25", "#7FB3FF", "#4A5A74", "#E8C97A", "#0B1F3A"],
+  "background": "#FFFFFF",
+  "foreground": "#0B1F3A",
+  "tableAccent": "#C9A24A",
+  "good": "#2E7D32",
+  "neutral": "#C9A24A",
+  "bad": "#C62828"
+}

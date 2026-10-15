@@ -1,0 +1,5 @@
+ReasonGroup,ReasonShort,Description,SortOrder
+Health and Social Care Reasons,Health & social care,"Waiting for health or social care arrangements, for example an assessment, a care home place or a home care package.",1
+Patient and Family Related Reasons,Patient & family,"Related to the patient, family or carer, for example disagreement about care home choice, or legal and financial matters.",2
+Code 9 AWI,Adults with Incapacity (Code 9),Complex cases where the person lacks capacity and a legal process under the Adults with Incapacity (Scotland) Act 2000 is needed.,3
+Code 9 Non-AWI,Other complex (Code 9),"Other complex cases, for example waiting for a specialist facility where no suitable place is available.",4

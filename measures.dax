@@ -1,0 +1,87 @@
+// =============================================================
+// Delayed Discharges dashboard: DAX measures
+// Create a blank table called _Measures (Home > Enter data > OK),
+// then add each measure below to it (Modelling > New measure).
+// =============================================================
+
+// ---------- Bed days (from fact_bed_days) ----------
+Bed Days =
+SUM ( fact_bed_days[BedDays] )
+
+Days in Period =
+SUM ( dim_date[DaysInMonth] )
+
+Avg Daily Delayed Beds =
+// Average number of hospital beds occupied each day by people ready to leave
+DIVIDE ( [Bed Days], [Days in Period] )
+
+Latest Month =
+CALCULATE ( MAX ( fact_bed_days[Date] ), ALL ( fact_bed_days ) )
+
+Bed Days (Latest Month) =
+VAR _latest = [Latest Month]
+RETURN
+    CALCULATE ( [Bed Days], dim_date[Date] = _latest )
+
+Avg Daily Delayed Beds (Latest Month) =
+VAR _latest = [Latest Month]
+RETURN
+    CALCULATE ( [Avg Daily Delayed Beds], dim_date[Date] = _latest )
+
+Bed Days Same Month Last Year =
+// Uses YearMonthSort (e.g. 202608) so it works with a monthly date table
+VAR _ym = MAX ( dim_date[YearMonthSort] )
+RETURN
+    CALCULATE (
+        [Bed Days],
+        FILTER ( ALL ( dim_date ), dim_date[YearMonthSort] = _ym - 100 )
+    )
+
+Bed Days YoY % =
+DIVIDE ( [Bed Days] - [Bed Days Same Month Last Year], [Bed Days Same Month Last Year] )
+
+Bed Days YoY % (Latest Month) =
+VAR _latest = [Latest Month]
+RETURN
+    CALCULATE ( [Bed Days YoY %], dim_date[Date] = _latest )
+
+Bed Days Rolling 12 Months =
+VAR _idx = MAX ( dim_date[MonthIndex] )
+RETURN
+    CALCULATE (
+        [Bed Days],
+        FILTER (
+            ALL ( dim_date ),
+            dim_date[MonthIndex] <= _idx
+                && dim_date[MonthIndex] > _idx - 12
+        )
+    )
+
+Share of Bed Days by Reason =
+DIVIDE ( [Bed Days], CALCULATE ( [Bed Days], ALL ( dim_reason ) ) )
+
+Share of Bed Days by Age =
+DIVIDE ( [Bed Days], CALCULATE ( [Bed Days], ALL ( dim_age_group ) ) )
+
+// ---------- People delayed at the monthly census (from fact_census_delays) ----------
+// A census is a snapshot on one day each month. It must NOT be added up across months.
+
+Census Delays =
+VAR _month = MAX ( dim_date[Date] )
+RETURN
+    CALCULATE ( SUM ( fact_census_delays[CensusDelays] ), dim_date[Date] = _month )
+
+Census Delays (Latest Month) =
+VAR _latest = [Latest Month]
+RETURN
+    CALCULATE ( SUM ( fact_census_delays[CensusDelays] ), dim_date[Date] = _latest )
+
+Avg Monthly Census Delays =
+AVERAGEX ( VALUES ( dim_date[Date] ), CALCULATE ( SUM ( fact_census_delays[CensusDelays] ) ) )
+
+// ---------- Labels ----------
+Latest Month Label =
+"Latest data: " & FORMAT ( [Latest Month], "mmmm yyyy" )
+
+Source Note =
+"Source: Public Health Scotland, Delayed Discharges in NHSScotland. Contains public sector information licensed under the Open Government Licence v3.0."
